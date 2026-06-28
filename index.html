@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBT Prediksi OSN IPA SD — Tingkat Provinsi</title>
+<style>
+:root{
+  --bg:#e9f6ef; --card:#ffffff; --ink:#16302a; --muted:#5f7a72;
+  --brand:#0f9d6c; --brand2:#0a7350; --accent:#f59e0b;
+  --ok:#16a34a; --okbg:#dcfce7; --bad:#dc2626; --badbg:#fee2e2;
+  --line:#dcebe4; --soft:#f1faf5; --warn:#b45309;
+  --mudah:#16a34a; --sedang:#2563eb; --sulit:#dc2626;
+  --shadow:0 10px 30px rgba(15,58,46,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+  background:linear-gradient(160deg,#d7f0e3,#eaf7f1 40%,#eefaf6);color:var(--ink);min-height:100vh}
+.hidden{display:none!important}
+button{font-family:inherit;cursor:pointer;border:none;border-radius:12px;font-weight:600}
+input{font-family:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:18px}
+.btn{background:var(--brand);color:#fff;padding:12px 20px;border-radius:12px;font-size:15px;transition:.15s}
+.btn:hover{background:var(--brand2)}
+.btn.ghost{background:#fff;color:var(--brand);border:1.5px solid var(--brand)}
+.btn.warn{background:var(--accent)}
+.btn.danger{background:var(--bad)}
+.btn.sm{padding:8px 14px;font-size:13px;border-radius:10px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ---------- LOGIN ---------- */
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+.login-card{background:var(--card);width:100%;max-width:460px;border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.login-head{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:30px 28px;text-align:center}
+.login-head .logo{font-size:42px}
+.login-head h1{margin:6px 0 2px;font-size:21px;letter-spacing:.3px}
+.login-head p{margin:0;opacity:.9;font-size:13px}
+.login-body{padding:26px 28px 28px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--muted)}
+.field input{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;font-size:15px;background:var(--soft)}
+.field input:focus{outline:none;border-color:var(--brand);background:#fff}
+.login-foot{text-align:center;margin-top:14px;font-size:12px;color:var(--muted)}
+.gear{position:fixed;top:14px;right:16px;background:#fff;border:1px solid var(--line);border-radius:50%;width:40px;height:40px;font-size:18px;box-shadow:var(--shadow)}
+
+/* ---------- SHELL ---------- */
+.topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.topbar-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:12px 18px;flex-wrap:wrap}
+.brand-mini{font-weight:800;color:var(--brand);font-size:16px;display:flex;align-items:center;gap:8px}
+.who{font-size:13px;color:var(--muted)}
+.who b{color:var(--ink)}
+.spacer{flex:1}
+.timer{font-weight:800;font-size:18px;padding:7px 14px;border-radius:12px;background:var(--soft);color:var(--brand2);min-width:104px;text-align:center}
+.timer.danger{background:var(--badbg);color:var(--bad);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.55}}
+
+/* ---------- PACKET SELECT ---------- */
+.section-title{font-size:20px;font-weight:800;margin:6px 0 2px}
+.section-sub{color:var(--muted);font-size:14px;margin:0 0 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.paket{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);transition:.15s;position:relative}
+.paket:hover{transform:translateY(-3px);border-color:var(--brand)}
+.paket .pnum{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px}
+.paket h3{margin:12px 0 4px;font-size:17px}
+.paket .meta{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.paket .done-badge{position:absolute;top:14px;right:14px;background:var(--okbg);color:var(--ok);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
+.info-card{background:#fff8ee;border:1px solid #ffe2bf;border-radius:14px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#7a4f12;line-height:1.6}
+
+/* ---------- QUIZ ---------- */
+.quiz-layout{display:grid;grid-template-columns:1fr 250px;gap:18px;align-items:start}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:24px}
+.qtop{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.qno{font-size:15px;font-weight:800;color:var(--brand)}
+.chip{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+.chip.ranah{background:#e7f7ef;color:var(--brand2)}
+.chip.mudah{background:#dcfce7;color:var(--mudah)}
+.chip.sedang{background:#dbeafe;color:var(--sedang)}
+.chip.sulit{background:#fee2e2;color:var(--sulit)}
+.chip.bobot{background:#fff7ed;color:var(--warn)}
+.qtext{font-size:18px;line-height:1.7;margin:6px 0 14px}
+/* ---- ilustrasi soal (gambar/grafik/data) ---- */
+.gambar{margin:4px 0 20px;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.g-svg{max-width:380px;width:100%;height:auto}
+.g-axis{stroke:#9bbcb0;stroke-width:1.5}
+.g-val{font-size:11px;fill:var(--ink);text-anchor:middle;font-weight:700}
+.g-lab{font-size:11px;fill:var(--muted);text-anchor:middle}
+.g-cap{font-size:13px;font-weight:700;color:var(--ink);text-align:center}
+.g-unit{font-size:11px;color:var(--muted)}
+.g-line2{stroke:var(--brand2);stroke-width:2.5;fill:none}
+.g-pt{fill:var(--brand)}
+.g-dash{stroke:var(--accent);stroke-width:1.6;stroke-dasharray:5 4;fill:none}
+.g-dim{font-size:12px;fill:var(--ink);font-weight:700;text-anchor:middle}
+.g-node{font-size:11px;font-weight:700;text-anchor:middle;fill:var(--ink)}
+.g-table{border-collapse:collapse;font-size:13px;width:100%;max-width:430px}
+.g-table th,.g-table td{border:1px solid #bfe0d2;padding:6px 10px;text-align:center}
+.g-table th{background:#e2f4ec;font-weight:700}
+.g-table td:first-child{text-align:left}
+.story-box{display:flex;gap:11px;align-items:flex-start;background:linear-gradient(135deg,#eef9f4,#e6f6ee);border:1px solid #c8ecdb;border-radius:12px;padding:12px 14px;font-size:14.5px;line-height:1.65;color:#1f4a3c;text-align:left;width:100%}
+.story-box .emoji{font-size:24px;line-height:1}
+.g-picto{border-collapse:collapse}
+.g-picto td{padding:5px 8px;font-size:19px;letter-spacing:2px}
+.g-picto .g-pl{font-size:13px;color:var(--muted);font-weight:700;text-align:right;white-space:nowrap}
+.pie-legend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;font-size:12.5px;color:var(--ink);font-weight:600}
+.pie-lg{display:inline-flex;align-items:center;gap:5px}
+.pie-lg i{width:13px;height:13px;border-radius:3px;display:inline-block}
+.answer-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.answer-row label{font-weight:700;color:var(--muted);font-size:14px}
+.answer-row input{flex:1;min-width:200px;padding:14px;border:2px solid var(--line);border-radius:12px;font-size:18px;background:var(--soft)}
+.answer-row input:focus{outline:none;border-color:var(--brand);background:#fff}
+.ans-hint{font-size:12px;color:var(--muted);margin-top:8px}
+.nav-row{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+.flagbtn{background:#fff;border:1.5px solid #f0c36d;color:#a86a12}
+.flagbtn.on{background:#ffeccb}
+
+.side{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px;position:sticky;top:78px}
+.side h4{margin:0 0 12px;font-size:14px}
+.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.pal{aspect-ratio:1;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-weight:700;font-size:14px;color:var(--ink);position:relative}
+.pal.answered{background:var(--brand);color:#fff;border-color:var(--brand)}
+.pal.flagged{border-color:var(--accent);box-shadow:0 0 0 2px rgba(245,158,11,.25)}
+.pal.current{outline:3px solid var(--brand2);outline-offset:1px}
+.legend{font-size:11px;color:var(--muted);margin-top:12px;line-height:1.8}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:5px}
+.side .btn{width:100%;margin-top:14px}
+.progress-mini{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
+
+/* ---------- RESULT ---------- */
+.result-hero{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-radius:20px;padding:28px;text-align:center;box-shadow:var(--shadow);margin-bottom:18px}
+.result-hero .score{font-size:54px;font-weight:800;line-height:1}
+.result-hero .label{opacity:.9;font-size:14px;margin-top:4px}
+.result-hero .who2{margin-top:14px;font-size:14px;opacity:.95}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.stat .v{font-size:26px;font-weight:800}
+.stat .k{font-size:12px;color:var(--muted);margin-top:2px}
+.save-status{padding:12px 16px;border-radius:12px;font-size:14px;margin-bottom:18px;font-weight:600}
+.save-status.ok{background:var(--okbg);color:var(--ok)}
+.save-status.err{background:#fff7ed;color:var(--warn)}
+.save-status.loading{background:var(--soft);color:var(--brand2)}
+.tablewrap{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px}
+.tablewrap h4{margin:0;padding:16px 18px;border-bottom:1px solid var(--line);font-size:15px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:var(--soft);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+td.center,th.center{text-align:center}
+.review-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px}
+.review-item .rh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.review-item .qt{font-size:15px;line-height:1.6;margin-bottom:10px}
+.ans-line{font-size:14px;margin:3px 0}
+.ans-line.user.ok{color:var(--ok);font-weight:700}
+.ans-line.user.no{color:var(--bad);font-weight:700}
+.ans-line.key{color:var(--brand2);font-weight:700}
+.pemb{font-size:13px;color:var(--muted);background:var(--soft);border-radius:10px;padding:10px 12px;margin-top:8px}
+.verdict{margin-left:auto;font-weight:700;font-size:13px}
+.verdict.ok{color:var(--ok)} .verdict.no{color:var(--bad)}
+
+/* ---------- MODAL ---------- */
+.overlay{position:fixed;inset:0;background:rgba(12,40,32,.55);display:flex;align-items:center;justify-content:center;z-index:60;padding:18px}
+.modal{background:#fff;border-radius:18px;max-width:460px;width:100%;padding:24px;box-shadow:var(--shadow)}
+.modal h3{margin:0 0 8px}
+.modal p{color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 18px}
+.modal .field input{font-size:13px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.foot-note{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:780px){.quiz-layout{grid-template-columns:1fr}.side{position:static}}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<section id="login">
+  <button class="gear" title="Pengaturan Guru" onclick="openSettings()">⚙️</button>
+  <div class="login-card">
+    <div class="login-head">
+      <div class="logo">🔬</div>
+      <h1>Prediksi OSN IPA SD</h1>
+      <p>Computer Based Test • Tingkat Provinsi (OSN-P)</p>
+    </div>
+    <div class="login-body">
+      <div class="field">
+        <label>Nama Lengkap</label>
+        <input id="inNama" placeholder="Tulis nama lengkapmu" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>Asal Sekolah</label>
+        <input id="inSekolah" placeholder="Tulis nama sekolahmu" autocomplete="off">
+      </div>
+      <button class="btn" style="width:100%" onclick="doLogin()">Masuk &amp; Pilih Paket →</button>
+      <div class="login-foot">Isi data dengan benar. Hasil akan terekam atas nama ini.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PACKET SELECT ============ -->
+<section id="select" class="hidden">
+  <div class="topbar"><div class="topbar-in">
+    <div class="brand-mini">🔬 OSN IPA SD</div>
+    <div class="spacer"></div>
+    <div class="who">Peserta: <b id="whoName"></b> — <b id="whoSchool"></b></div>
+    <button class="btn ghost sm" onclick="logout()">Keluar</button>
+  </div></div>
+  <div class="wrap">
+    <div class="section-title">Pilih Paket Soal</div>
+    <p class="section-sub">Tersedia 10 paket prediksi. Setiap paket berisi 20 soal isian singkat (HOTS).</p>
+    <div class="info-card">
+      <b>📋 Aturan Pengerjaan:</b> Setiap paket terdiri dari <b>20 soal isian singkat</b> bertipe HOTS
+      (ranah <b>Biologi</b>, <b>Fisika</b>, dan <b>Bumi &amp; Antariksa/IPBA</b>).
+      Waktu pengerjaan <b id="infoDurasi">60 menit</b>. Jawaban benar = poin sesuai bobot kesulitan;
+      jawaban salah/kosong = 0. Bobot: <b style="color:var(--mudah)">Mudah ×1</b>,
+      <b style="color:var(--sedang)">Sedang ×1,25</b>, <b style="color:var(--sulit)">Sulit ×1,5</b>
+      (5 + 10 + 5 soal, nilai maksimal <b>25</b>).
+      Tulis jawaban <b>singkat dan jelas</b> (istilah/angka). Untuk angka, tulis tanpa titik ribuan.
+    </div>
+    <div class="grid" id="paketGrid"></div>
+    <div class="foot-note">© Prediksi OSN-P IPA SD — untuk latihan persiapan.</div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="quiz" class="hidden">
+  <div class="topbar"><div class="topbar-in">
+    <div class="brand-mini">🔬 <span id="quizPaketName"></span></div>
+    <div class="who">· <b id="whoName2"></b></div>
+    <div class="spacer"></div>
+    <div class="timer" id="timer">60:00</div>
+  </div></div>
+  <div class="wrap">
+    <div class="quiz-layout">
+      <div>
+        <div class="qcard" id="qcard"></div>
+      </div>
+      <aside class="side">
+        <h4>Navigasi Soal</h4>
+        <div class="palette" id="palette"></div>
+        <div class="legend">
+          <div><i style="background:var(--brand)"></i> Sudah dijawab</div>
+          <div><i style="background:#fff;border:1.5px solid var(--line)"></i> Belum dijawab</div>
+          <div><i style="background:#fff;border:1.5px solid var(--accent)"></i> Ditandai ragu-ragu</div>
+        </div>
+        <div class="progress-mini" id="progressMini"></div>
+        <button class="btn warn" onclick="confirmFinish()">Selesai &amp; Kumpulkan</button>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESULT ============ -->
+<section id="result" class="hidden">
+  <div class="topbar"><div class="topbar-in">
+    <div class="brand-mini">🔬 Hasil Pengerjaan</div>
+    <div class="spacer"></div>
+    <button class="btn ghost sm" onclick="backToSelect()">← Pilih Paket Lain</button>
+  </div></div>
+  <div class="wrap">
+    <div class="result-hero">
+      <div class="label">NILAI AKHIR (berbobot)</div>
+      <div class="score" id="finalScore">0</div>
+      <div class="label" id="finalMax"></div>
+      <div class="who2" id="resultWho"></div>
+    </div>
+    <div id="saveStatus" class="save-status loading">⏳ Menyimpan hasil...</div>
+    <div class="stats" id="resultStats"></div>
+    <div class="tablewrap">
+      <h4>Rincian Skor per Tingkat Kesulitan</h4>
+      <table id="levelTable"></table>
+    </div>
+    <div class="tablewrap">
+      <h4>Rincian Benar per Ranah Materi</h4>
+      <table id="ranahTable"></table>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
+      <button class="btn ghost sm" onclick="downloadResult()">⬇️ Unduh Bukti Hasil (.txt)</button>
+      <button class="btn ghost sm" onclick="toggleReview()">👁️ Lihat Pembahasan</button>
+      <button class="btn sm" onclick="retrySave()" id="retryBtn" style="display:none">🔄 Coba Simpan Ulang</button>
+    </div>
+    <div id="reviewWrap" class="hidden"></div>
+    <div class="foot-note">© Prediksi OSN-P IPA SD</div>
+  </div>
+</section>
+
+<!-- ============ MODAL CONTAINER ============ -->
+<div id="modalRoot"></div>
+
+<script src="soal.js"></script>
+<script>
+/* =========================================================
+   KONFIGURASI — durasi & endpoint penyimpanan
+   ========================================================= */
+const CONFIG = {
+  DURASI_MENIT: 60,
+  // URL Google Apps Script Web App (diisi guru via tombol ⚙️ atau langsung di sini)
+  APPS_SCRIPT_URL: ""
+};
+CONFIG.APPS_SCRIPT_URL = localStorage.getItem('osnipa_script_url') || CONFIG.APPS_SCRIPT_URL;
+
+const BOBOT = window.BOBOT;
+const RANAH_LIST = ['Biologi','Fisika','IPBA'];
+let SES = { nama:"", sekolah:"" };
+let CUR = null;
+let timerInt = null;
+
+/* ---------- util ---------- */
+function $(id){return document.getElementById(id)}
+function show(sec){['login','select','quiz','result'].forEach(s=>$(s).classList.toggle('hidden',s!==sec))}
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+
+/* =========================================================
+   MESIN RENDER ILUSTRASI SOAL
+   data pengamatan (table), grafik (bar/line), diagram (pie),
+   piktogram (picto), konteks (story), atau SVG/HTML mentah.
+   ========================================================= */
+function tblG(g){
+  const h=g.head.map(x=>`<th>${esc(x)}</th>`).join('');
+  const r=g.rows.map(row=>`<tr>${row.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('');
+  return `${g.caption?`<div class="g-cap">${esc(g.caption)}</div>`:''}<table class="g-table"><thead><tr>${h}</tr></thead><tbody>${r}</tbody></table>`;
+}
+function storyG(g){return `<div class="story-box"><span class="emoji">${g.emoji||'🔎'}</span><span>${esc(g.text)}</span></div>`;}
+function barG(g){
+  const W=380,H=210,pad=36,bw=(W-pad-12)/g.values.length,max=Math.max(...g.values),sc=(H-pad*2)/max;
+  const bars=g.values.map((v,i)=>{const x=pad+i*bw+bw*0.18,w=bw*0.64,hh=v*sc,y=H-pad-hh;
+    return `<rect x="${x}" y="${y}" width="${w}" height="${hh}" rx="3" fill="var(--brand)"/>
+      <text x="${x+w/2}" y="${y-5}" class="g-val">${v}</text>
+      <text x="${x+w/2}" y="${H-pad+15}" class="g-lab">${esc(g.labels[i])}</text>`;}).join('');
+  return `${g.title?`<div class="g-cap">${esc(g.title)}</div>`:''}<svg viewBox="0 0 ${W} ${H}" class="g-svg">
+    <line x1="${pad}" y1="${H-pad}" x2="${W-6}" y2="${H-pad}" class="g-axis"/>
+    <line x1="${pad}" y1="${pad-8}" x2="${pad}" y2="${H-pad}" class="g-axis"/>${bars}</svg>${g.unit?`<div class="g-unit">${esc(g.unit)}</div>`:''}`;
+}
+function lineG(g){
+  const W=380,H=210,pad=38,max=Math.max(...g.values),n=g.values.length;
+  const sx=i=>pad+i*((W-pad-12)/(n-1)),sy=v=>H-pad-(v/max)*(H-pad*2);
+  const pts=g.values.map((v,i)=>`${sx(i)},${sy(v)}`).join(' ');
+  const dots=g.values.map((v,i)=>`<circle cx="${sx(i)}" cy="${sy(v)}" r="3.5" class="g-pt"/>
+    <text x="${sx(i)}" y="${sy(v)-9}" class="g-val">${v}</text>
+    <text x="${sx(i)}" y="${H-pad+15}" class="g-lab">${esc(g.labels[i])}</text>`).join('');
+  return `${g.title?`<div class="g-cap">${esc(g.title)}</div>`:''}<svg viewBox="0 0 ${W} ${H}" class="g-svg">
+    <line x1="${pad}" y1="${H-pad}" x2="${W-6}" y2="${H-pad}" class="g-axis"/>
+    <line x1="${pad}" y1="${pad-8}" x2="${pad}" y2="${H-pad}" class="g-axis"/>
+    <polyline points="${pts}" class="g-line2"/>${dots}</svg>${g.unit?`<div class="g-unit">${esc(g.unit)}</div>`:''}`;
+}
+function pictoG(g){
+  const rows=g.rows.map(r=>`<tr><td class="g-pl">${esc(r.label)}</td><td>${(g.icon||'🟩').repeat(r.count)}</td></tr>`).join('');
+  return `${g.title?`<div class="g-cap">${esc(g.title)}</div>`:''}<table class="g-picto"><tbody>${rows}</tbody></table><div class="g-unit">${g.note?esc(g.note):(g.icon+' mewakili 1')}</div>`;
+}
+function pieG(g){
+  const W=240,H=200,cx=120,cy=100,r=86;
+  const total=g.slices.reduce((a,s)=>a+s.value,0);
+  const cols=['#0f9d6c','#f59e0b','#2563eb','#dc2626','#7c3aed','#0891b2'];
+  let ang=-Math.PI/2,paths='';
+  g.slices.forEach((s,i)=>{
+    const fr=s.value/total,a2=ang+fr*2*Math.PI;
+    const x1=cx+r*Math.cos(ang),y1=cy+r*Math.sin(ang),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+    const col=cols[i%cols.length],large=fr>0.5?1:0;
+    paths+=`<path d="M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${large},1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${col}" stroke="#fff" stroke-width="2"/>`;
+    const mid=(ang+a2)/2,lx=cx+r*0.62*Math.cos(mid),ly=cy+r*0.62*Math.sin(mid);
+    const txt=(g.showPct===false)?s.value:Math.round(fr*100)+'%';
+    paths+=`<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" fill="#fff" style="font-size:12px;font-weight:700;text-anchor:middle;dominant-baseline:middle">${txt}</text>`;
+    ang=a2;
+  });
+  const legend=g.slices.map((s,i)=>`<span class="pie-lg"><i style="background:${cols[i%cols.length]}"></i>${esc(s.label)}</span>`).join('');
+  return `${g.title?`<div class="g-cap">${esc(g.title)}</div>`:''}<svg viewBox="0 0 ${W} ${H}" class="g-svg" style="max-width:240px">${paths}</svg><div class="pie-legend">${legend}</div>`;
+}
+function leverG(g){ // tuas/pengungkit {beban, lb, lk, unit}
+  const W=360,H=170,y=104,fx=180,scale=120/Math.max(g.lb,g.lk);
+  const bx=fx-g.lb*scale, kx=fx+g.lk*scale, u=g.unit||'cm';
+  return `${g.caption?`<div class="g-cap">${esc(g.caption)}</div>`:''}<svg viewBox="0 0 ${W} ${H}" class="g-svg">
+    <line x1="${bx-20}" y1="${y}" x2="${kx+20}" y2="${y}" stroke="var(--brand2)" stroke-width="5" stroke-linecap="round"/>
+    <polygon points="${fx-15},${y+38} ${fx+15},${y+38} ${fx},${y+3}" fill="#9bbcb0" stroke="var(--brand2)" stroke-width="1.5"/>
+    <rect x="${bx-16}" y="${y-32}" width="32" height="30" rx="3" fill="var(--brand)"/>
+    <text x="${bx}" y="${y-38}" class="g-val">${g.beban} N</text>
+    <line x1="${kx}" y1="${y-2}" x2="${kx}" y2="${y-34}" stroke="var(--accent)" stroke-width="2.5"/>
+    <polygon points="${kx-5},${y-30} ${kx+5},${y-30} ${kx},${y-40}" fill="var(--accent)"/>
+    <text x="${kx}" y="${y-44}" class="g-val" style="fill:var(--accent)">F = ?</text>
+    <line x1="${bx}" y1="${y+16}" x2="${fx}" y2="${y+16}" class="g-dash"/>
+    <text x="${(bx+fx)/2}" y="${y+30}" class="g-lab">${g.lb} ${u}</text>
+    <line x1="${fx}" y1="${y+16}" x2="${kx}" y2="${y+16}" class="g-dash"/>
+    <text x="${(fx+kx)/2}" y="${y+30}" class="g-lab">${g.lk} ${u}</text>
+  </svg>`;
+}
+function inclineG(g){ // bidang miring {panjang, tinggi, unit, beban?}
+  const W=330,H=180,x0=40,y0=150,len=250,ht=110,u=g.unit||'m';
+  const x1=x0+len,x2=x1,y2=y0-ht;
+  return `${g.caption?`<div class="g-cap">${esc(g.caption)}</div>`:''}<svg viewBox="0 0 ${W} ${H}" class="g-svg">
+    <polygon points="${x0},${y0} ${x1},${y0} ${x2},${y2}" fill="#dbeafe" stroke="var(--brand2)" stroke-width="2"/>
+    <rect x="${x0+len*0.42-15}" y="${y0-(ht*0.58)-26}" width="30" height="26" rx="3" fill="var(--brand)" transform="rotate(${-Math.round(Math.atan2(ht,len)*180/Math.PI)} ${x0+len*0.42} ${y0-(ht*0.58)})"/>
+    <text x="${x0+len*0.5+6}" y="${y0-ht*0.5-14}" class="g-dim" transform="rotate(${-Math.round(Math.atan2(ht,len)*180/Math.PI)} ${x0+len*0.5} ${y0-ht*0.5})">panjang ${g.panjang} ${u}</text>
+    <text x="${x1+8}" y="${y0-ht/2}" class="g-dim" transform="rotate(-90 ${x1+8} ${y0-ht/2})">tinggi ${g.tinggi} ${u}</text>
+  </svg>`;
+}
+function foodwebG(g){ // jaring makanan {nodes:[{id,label,x,y}], links:[[a,b]]}  x,y dalam 0..1
+  const W=360,H=240,pos={};
+  g.nodes.forEach(n=>pos[n.id]={x:n.x*W,y:n.y*H,label:n.label});
+  let lines='';
+  g.links.forEach(([a,b])=>{const p=pos[a],q=pos[b];
+    const dx=q.x-p.x,dy=q.y-p.y,d=Math.hypot(dx,dy)||1,ux=dx/d,uy=dy/d;
+    const x1=p.x+ux*36,y1=p.y+uy*16,x2=q.x-ux*38,y2=q.y-uy*17;
+    lines+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="var(--brand2)" stroke-width="1.6" marker-end="url(#fwArrow)"/>`;});
+  let nodes='';
+  g.nodes.forEach(n=>{const p=pos[n.id];
+    nodes+=`<rect x="${p.x-34}" y="${p.y-13}" width="68" height="26" rx="13" fill="#e7f7ef" stroke="var(--brand2)" stroke-width="1.4"/><text x="${p.x}" y="${p.y+4}" class="g-node">${esc(n.label)}</text>`;});
+  return `${g.caption?`<div class="g-cap">${esc(g.caption)}</div>`:''}<svg viewBox="0 0 ${W} ${H}" class="g-svg" style="max-width:360px">
+    <defs><marker id="fwArrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--brand2)"/></marker></defs>
+    ${lines}${nodes}</svg>`;
+}
+function gimg(g){
+  if(!g) return '';
+  let inner = (typeof g==='string') ? g
+    : ({table:tblG,bar:barG,line:lineG,picto:pictoG,pie:pieG,story:storyG,
+        lever:leverG,incline:inclineG,foodweb:foodwebG}[g.t]||(()=> ''))(g);
+  return inner ? `<div class="gambar">${inner}</div>` : '';
+}
+
+/* ---------- normalisasi & penilaian jawaban ----------
+   Mendukung jawaban TEKS (toleran huruf besar/kecil, spasi,
+   tanda baca, dan beberapa alternatif dipisah "|") maupun
+   ANGKA (toleran titik ribuan / koma desimal). */
+function numCandidates(str){
+  let s=String(str).trim().toLowerCase().replace(/\s/g,'').replace(/−/g,'-');
+  if(!s) return [];
+  const out=new Set();
+  const tryPush=v=>{ if(v!==''&&isFinite(v)) out.add(parseFloat(v)); };
+  tryPush(s.replace(/\./g,'').replace(/,/g,'.'));   // titik=ribuan, koma=desimal
+  tryPush(s.replace(/,/g,''));                       // titik=desimal, koma=ribuan
+  tryPush(s.replace(/[.,]/g,''));                    // buang semua pemisah
+  tryPush(s.replace(/,/g,'.'));                      // koma=desimal
+  return [...out];
+}
+function normTxt(x){
+  return String(x).trim().toLowerCase()
+    .replace(/−/g,'-')
+    .replace(/[.,;:!?]+$/,'')        // buang tanda baca akhir
+    .replace(/\s+/g,' ')             // rapatkan spasi
+    .replace(/^["'`]+|["'`]+$/g,''); // buang kutip
+}
+function cocokSatu(userRaw, kunciSatu){
+  const u=String(userRaw||'').trim();
+  if(!u) return false;
+  const k=String(kunciSatu).trim();
+  // jika kunci mengandung "/" (mis. pecahan) → cocokkan teks persis
+  if(k.includes('/') && /\d/.test(k) && !/[a-z]/i.test(k.replace(/[\/\d\s.,-]/g,''))){
+    return normTxt(u).replace(/\s/g,'')===normTxt(k).replace(/\s/g,'');
+  }
+  // bandingkan numerik bila keduanya berupa angka
+  const ku=numCandidates(k), us=numCandidates(u);
+  if(ku.length && us.length){
+    for(const a of us) for(const b of ku) if(Math.abs(a-b)<1e-9) return true;
+  }
+  // bandingkan teks (abaikan perbedaan spasi, mis. "3 : 1" = "3:1")
+  return normTxt(u).replace(/\s+/g,'')===normTxt(k).replace(/\s+/g,'');
+}
+function cekJawaban(userRaw, kunci){
+  // kunci dapat berisi beberapa alternatif dipisah "|"
+  const alts=String(kunci).split('|').map(s=>s.trim()).filter(Boolean);
+  return alts.some(a=>cocokSatu(userRaw,a));
+}
+function kunciTampil(kunci){
+  return String(kunci).split('|').map(s=>s.trim()).filter(Boolean).join(' / ');
+}
+
+/* ---------- LOGIN ---------- */
+function doLogin(){
+  const n=$('inNama').value.trim(), s=$('inSekolah').value.trim();
+  if(!n){alert('Nama wajib diisi.');$('inNama').focus();return;}
+  if(!s){alert('Asal sekolah wajib diisi.');$('inSekolah').focus();return;}
+  SES={nama:n,sekolah:s};
+  localStorage.setItem('osnipa_ses',JSON.stringify(SES));
+  enterSelect();
+}
+function logout(){ if(!confirm('Keluar dari sesi ini?'))return; localStorage.removeItem('osnipa_ses'); show('login'); }
+function enterSelect(){
+  $('whoName').textContent=SES.nama; $('whoSchool').textContent=SES.sekolah;
+  $('infoDurasi').textContent=CONFIG.DURASI_MENIT+' menit';
+  renderPaketGrid(); show('select');
+}
+function backToSelect(){ stopTimer(); enterSelect(); }
+
+/* ---------- PILIH PAKET ---------- */
+function doneKey(pid){return 'osnipa_done_'+SES.nama+'_'+pid}
+function renderPaketGrid(){
+  const g=$('paketGrid'); g.innerHTML='';
+  window.DATA_PAKET.forEach(p=>{
+    const done=localStorage.getItem(doneKey(p.id));
+    const el=document.createElement('div'); el.className='paket';
+    el.innerHTML=`
+      ${done?`<span class="done-badge">✓ Nilai ${done}</span>`:''}
+      <div class="pnum">${p.id}</div>
+      <h3>${esc(p.nama)}</h3>
+      <div class="meta">20 soal isian singkat<br>Biologi • Fisika • IPBA</div>
+      <button class="btn sm" style="width:100%">${done?'Kerjakan Ulang':'Mulai Kerjakan'} →</button>`;
+    el.querySelector('button').onclick=()=>startPaket(p.id);
+    g.appendChild(el);
+  });
+}
+
+/* ---------- MULAI PAKET ---------- */
+function startPaket(pid){
+  const paket=window.DATA_PAKET.find(p=>p.id===pid);
+  if(localStorage.getItem(doneKey(pid)) &&
+     !confirm('Kamu sudah pernah mengerjakan paket ini. Kerjakan ulang? Nilai sebelumnya akan ditimpa.')) return;
+  CUR={ paket, idx:0, jawab:Array(paket.soal.length).fill(''),
+        flag:Array(paket.soal.length).fill(false),
+        sisaDetik:CONFIG.DURASI_MENIT*60, mulai:new Date() };
+  $('quizPaketName').textContent=paket.nama;
+  $('whoName2').textContent=SES.nama;
+  show('quiz'); renderQuestion(); renderPalette(); startTimer();
+}
+
+/* ---------- TIMER ---------- */
+function startTimer(){ stopTimer(); updateTimer(); timerInt=setInterval(()=>{
+  CUR.sisaDetik--; updateTimer();
+  if(CUR.sisaDetik<=0){ stopTimer(); alert('Waktu habis! Jawaban akan dikumpulkan otomatis.'); finishQuiz(); }
+},1000); }
+function stopTimer(){ if(timerInt){clearInterval(timerInt);timerInt=null;} }
+function updateTimer(){
+  const m=Math.floor(CUR.sisaDetik/60), s=CUR.sisaDetik%60;
+  const t=$('timer'); t.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  t.classList.toggle('danger',CUR.sisaDetik<=60);
+}
+
+/* ---------- RENDER SOAL ---------- */
+function saveCurrentInput(){
+  const inp=$('answerInput'); if(inp) CUR.jawab[CUR.idx]=inp.value;
+}
+function renderQuestion(){
+  const i=CUR.idx, q=CUR.paket.soal[i], bobot=BOBOT[q.level];
+  const bobotTxt=String(bobot).replace('.',',');
+  $('qcard').innerHTML=`
+    <div class="qtop">
+      <span class="qno">Soal No. ${i+1} / ${CUR.paket.soal.length}</span>
+      <span class="chip ranah">${esc(q.ranah)}</span>
+      <span class="chip ${q.level}">${q.level.toUpperCase()}</span>
+      <span class="chip bobot">Bobot ×${bobotTxt}</span>
+    </div>
+    <div class="qtext">${esc(q.soal)}</div>
+    ${gimg(q.gambar)}
+    <div class="answer-row">
+      <label>Jawaban:</label>
+      <input id="answerInput" autocomplete="off" inputmode="text"
+             value="${esc(CUR.jawab[i])}" placeholder="Ketik jawabanmu di sini">
+    </div>
+    <div class="ans-hint">💡 Tulis jawaban singkat &amp; jelas (istilah atau angka). Angka tanpa titik ribuan (mis. <b>1500</b>); desimal boleh pakai koma (mis. <b>7,5</b>).</div>
+    <div class="nav-row">
+      <button class="btn ghost sm" onclick="prevQ()" ${i===0?'disabled':''}>← Sebelumnya</button>
+      <button class="flagbtn sm ${CUR.flag[i]?'on':''}" onclick="toggleFlag()">${CUR.flag[i]?'★ Ditandai':'☆ Ragu-ragu'}</button>
+      <div class="spacer"></div>
+      ${i===CUR.paket.soal.length-1
+        ? `<button class="btn warn sm" onclick="confirmFinish()">Selesai →</button>`
+        : `<button class="btn sm" onclick="nextQ()">Berikutnya →</button>`}
+    </div>`;
+  const inp=$('answerInput');
+  inp.addEventListener('input',()=>{CUR.jawab[i]=inp.value;refreshPalette();updateProgress();});
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault(); if(i<CUR.paket.soal.length-1)nextQ();}});
+  inp.focus();
+}
+function gotoQ(i){ saveCurrentInput(); CUR.idx=i; renderQuestion(); refreshPalette(); }
+function nextQ(){ if(CUR.idx<CUR.paket.soal.length-1) gotoQ(CUR.idx+1); }
+function prevQ(){ if(CUR.idx>0) gotoQ(CUR.idx-1); }
+function toggleFlag(){ CUR.flag[CUR.idx]=!CUR.flag[CUR.idx]; renderQuestion(); refreshPalette(); }
+
+/* ---------- PALETTE ---------- */
+function renderPalette(){
+  const p=$('palette'); p.innerHTML='';
+  CUR.paket.soal.forEach((q,i)=>{
+    const b=document.createElement('button'); b.className='pal'; b.textContent=i+1;
+    b.onclick=()=>gotoQ(i); p.appendChild(b);
+  });
+  refreshPalette(); updateProgress();
+}
+function refreshPalette(){
+  [...$('palette').children].forEach((b,i)=>{
+    b.classList.toggle('answered',!!CUR.jawab[i].trim());
+    b.classList.toggle('flagged',CUR.flag[i]);
+    b.classList.toggle('current',i===CUR.idx);
+  });
+}
+function updateProgress(){
+  const n=CUR.jawab.filter(x=>x.trim()).length;
+  $('progressMini').textContent=`Terisi ${n} dari ${CUR.paket.soal.length} soal`;
+}
+
+/* ---------- SELESAI ---------- */
+function confirmFinish(){
+  saveCurrentInput();
+  const kosong=CUR.jawab.filter(x=>!x.trim()).length;
+  let msg='Kumpulkan jawaban sekarang?';
+  if(kosong>0) msg=`Masih ada ${kosong} soal belum dijawab.\n\nTetap kumpulkan sekarang?`;
+  showModal(`<h3>Kumpulkan Jawaban?</h3><p>${msg.replace(/\n/g,'<br>')}</p>
+    <div class="modal-actions">
+      <button class="btn ghost sm" onclick="closeModal()">Periksa Lagi</button>
+      <button class="btn warn sm" onclick="closeModal();finishQuiz()">Ya, Kumpulkan</button>
+    </div>`);
+}
+function finishQuiz(){
+  stopTimer(); saveCurrentInput();
+  const paket=CUR.paket; let benar=0, nilai=0;
+  const perLevel={mudah:{benar:0,total:0},sedang:{benar:0,total:0},sulit:{benar:0,total:0}};
+  const perRanah={}; const detail=[];
+  paket.soal.forEach((q,i)=>{
+    const ok=cekJawaban(CUR.jawab[i],q.kunci);
+    perLevel[q.level].total++;
+    perRanah[q.ranah]=perRanah[q.ranah]||{benar:0,total:0};
+    perRanah[q.ranah].total++;
+    if(ok){ benar++; nilai+=BOBOT[q.level]; perLevel[q.level].benar++; perRanah[q.ranah].benar++; }
+    detail.push({no:q.no,ranah:q.ranah,level:q.level,jawab:CUR.jawab[i]||'',kunci:kunciTampil(q.kunci),benar:ok});
+  });
+  const maxNilai=paket.soal.reduce((a,q)=>a+BOBOT[q.level],0);
+  const durasiDetik=Math.round((new Date()-CUR.mulai)/1000);
+  CUR.hasil={ benar, totalSoal:paket.soal.length, nilai:+nilai.toFixed(2),
+    maxNilai:+maxNilai.toFixed(2), perLevel, perRanah, detail, durasiDetik };
+  localStorage.setItem(doneKey(paket.id), nilai.toFixed(2).replace(/\.00$/,''));
+  renderResult(); show('result'); kirimKeDrive();
+}
+
+/* ---------- HASIL ---------- */
+function renderResult(){
+  const h=CUR.hasil, paket=CUR.paket;
+  $('finalScore').textContent=String(h.nilai).replace('.',',');
+  $('finalMax').textContent=`dari maksimal ${String(h.maxNilai).replace('.',',')}`;
+  $('resultWho').textContent=`${SES.nama} • ${SES.sekolah} • ${paket.nama}`;
+  const mnt=Math.floor(h.durasiDetik/60), dtk=h.durasiDetik%60;
+  $('resultStats').innerHTML=`
+    <div class="stat"><div class="v">${h.benar}/${h.totalSoal}</div><div class="k">Jawaban Benar</div></div>
+    <div class="stat"><div class="v">${Math.round(h.benar/h.totalSoal*100)}%</div><div class="k">Persentase Benar</div></div>
+    <div class="stat"><div class="v">${String(h.nilai).replace('.',',')}</div><div class="k">Nilai Akhir Berbobot</div></div>
+    <div class="stat"><div class="v">${mnt}m ${dtk}d</div><div class="k">Waktu Pengerjaan</div></div>`;
+  const lv=[['Mudah','mudah',1],['Sedang','sedang',1.25],['Sulit','sulit',1.5]];
+  let lt=`<tr><th>Tingkat</th><th class="center">Bobot</th><th class="center">Benar</th><th class="center">Jumlah</th><th class="center">Poin</th></tr>`;
+  lv.forEach(([nm,k,b])=>{ const d=h.perLevel[k]; const poin=(d.benar*b);
+    lt+=`<tr><td>${nm}</td><td class="center">×${String(b).replace('.',',')}</td><td class="center">${d.benar}</td><td class="center">${d.total}</td><td class="center"><b>${String(+poin.toFixed(2)).replace('.',',')}</b></td></tr>`;});
+  lt+=`<tr><td colspan="4" style="text-align:right"><b>NILAI AKHIR</b></td><td class="center"><b style="color:var(--brand)">${String(h.nilai).replace('.',',')}</b></td></tr>`;
+  $('levelTable').innerHTML=lt;
+  let rt=`<tr><th>Ranah Materi</th><th class="center">Benar</th><th class="center">Jumlah</th><th class="center">%</th></tr>`;
+  const ranahNama={Biologi:'Biologi (Makhluk Hidup)',Fisika:'Fisika (Materi & Energi)',IPBA:'Bumi & Antariksa (IPBA)'};
+  RANAH_LIST.forEach(r=>{
+    const d=h.perRanah[r]||{benar:0,total:0};
+    rt+=`<tr><td>${ranahNama[r]||r}</td><td class="center">${d.benar}</td><td class="center">${d.total}</td><td class="center">${d.total?Math.round(d.benar/d.total*100):0}%</td></tr>`;});
+  $('ranahTable').innerHTML=rt;
+  let rv='';
+  paket.soal.forEach((q,i)=>{
+    const d=h.detail[i];
+    rv+=`<div class="review-item">
+      <div class="rh">
+        <span class="qno">No. ${i+1}</span>
+        <span class="chip ranah">${esc(q.ranah)}</span>
+        <span class="chip ${q.level}">${q.level.toUpperCase()}</span>
+        <span class="verdict ${d.benar?'ok':'no'}">${d.benar?'✓ Benar':'✗ Salah'}</span>
+      </div>
+      <div class="qt">${esc(q.soal)}</div>
+      ${gimg(q.gambar)}
+      <div class="ans-line user ${d.benar?'ok':'no'}">Jawabanmu: ${d.jawab?esc(d.jawab):'<i>(kosong)</i>'}</div>
+      <div class="ans-line key">Kunci: ${esc(kunciTampil(q.kunci))}</div>
+      <div class="pemb">📝 ${esc(q.pembahasan)}</div>
+    </div>`;
+  });
+  $('reviewWrap').innerHTML=rv;
+}
+function toggleReview(){ $('reviewWrap').classList.toggle('hidden'); }
+
+/* ---------- SIMPAN KE GOOGLE DRIVE (Apps Script) ---------- */
+function buildPayload(){
+  const h=CUR.hasil;
+  return {
+    waktu:new Date().toISOString(), nama:SES.nama, sekolah:SES.sekolah,
+    paket:CUR.paket.nama, paketId:CUR.paket.id,
+    nilaiAkhir:h.nilai, nilaiMaks:h.maxNilai,
+    benar:h.benar, totalSoal:h.totalSoal,
+    benarMudah:h.perLevel.mudah.benar, benarSedang:h.perLevel.sedang.benar, benarSulit:h.perLevel.sulit.benar,
+    benarBiologi:(h.perRanah.Biologi||{}).benar||0,
+    benarFisika:(h.perRanah.Fisika||{}).benar||0,
+    benarIPBA:(h.perRanah.IPBA||{}).benar||0,
+    durasiDetik:h.durasiDetik, detail:h.detail
+  };
+}
+function setSaveStatus(cls,html){ const e=$('saveStatus'); e.className='save-status '+cls; e.innerHTML=html; }
+async function kirimKeDrive(){
+  if(!CONFIG.APPS_SCRIPT_URL){
+    setSaveStatus('err','⚠️ Penyimpanan Google Drive belum diatur oleh guru. Hasil tetap bisa diunduh via tombol di bawah.');
+    $('retryBtn').style.display='none'; return;
+  }
+  setSaveStatus('loading','⏳ Menyimpan hasil ke Google Drive...');
+  try{
+    await fetch(CONFIG.APPS_SCRIPT_URL,{
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(buildPayload())
+    });
+    setSaveStatus('ok','✅ Hasil berhasil dikirim ke Google Drive guru. Terima kasih!');
+    $('retryBtn').style.display='none';
+  }catch(err){
+    setSaveStatus('err','⚠️ Gagal mengirim hasil (cek koneksi internet). Silakan unduh bukti hasil & coba simpan ulang.');
+    $('retryBtn').style.display='inline-block';
+  }
+}
+function retrySave(){ kirimKeDrive(); }
+
+/* ---------- UNDUH BUKTI ---------- */
+function downloadResult(){
+  const h=CUR.hasil;
+  let t=`HASIL CBT PREDIKSI OSN IPA SD\n`;
+  t+=`=====================================\n`;
+  t+=`Nama     : ${SES.nama}\nSekolah  : ${SES.sekolah}\nPaket    : ${CUR.paket.nama}\n`;
+  t+=`Tanggal  : ${new Date().toLocaleString('id-ID')}\n`;
+  t+=`Durasi   : ${Math.floor(h.durasiDetik/60)} menit ${h.durasiDetik%60} detik\n\n`;
+  t+=`NILAI AKHIR (berbobot): ${h.nilai} / ${h.maxNilai}\n`;
+  t+=`Jawaban benar: ${h.benar} dari ${h.totalSoal}\n`;
+  t+=`  - Mudah (×1)    : ${h.perLevel.mudah.benar}/${h.perLevel.mudah.total}\n`;
+  t+=`  - Sedang (×1,25): ${h.perLevel.sedang.benar}/${h.perLevel.sedang.total}\n`;
+  t+=`  - Sulit (×1,5)  : ${h.perLevel.sulit.benar}/${h.perLevel.sulit.total}\n\n`;
+  t+=`Benar per ranah:\n`;
+  const rn={Biologi:'Biologi',Fisika:'Fisika',IPBA:'Bumi & Antariksa'};
+  RANAH_LIST.forEach(r=>{
+    const d=h.perRanah[r]||{benar:0,total:0}; t+=`  - ${rn[r]}: ${d.benar}/${d.total}\n`;});
+  t+=`\n--- RINCIAN JAWABAN ---\n`;
+  h.detail.forEach(d=>{ t+=`No.${d.no} [${d.level}] ${d.benar?'BENAR':'salah'} | jawab: ${d.jawab||'(kosong)'} | kunci: ${d.kunci}\n`; });
+  const blob=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`Hasil_${SES.nama.replace(/\s+/g,'_')}_${CUR.paket.nama.replace(/\s+/g,'')}.txt`;
+  a.click();
+}
+
+/* ---------- MODAL ---------- */
+function showModal(html){ $('modalRoot').innerHTML=`<div class="overlay" onclick="if(event.target===this)closeModal()"><div class="modal">${html}</div></div>`; }
+function closeModal(){ $('modalRoot').innerHTML=''; }
+
+/* ---------- PENGATURAN GURU ---------- */
+function openSettings(){
+  const cur=localStorage.getItem('osnipa_script_url')||'';
+  showModal(`<h3>⚙️ Pengaturan Guru</h3>
+    <p>Tempel <b>URL Google Apps Script Web App</b> agar hasil siswa otomatis tersimpan ke Google Drive Anda.
+    Lihat berkas <b>PETUNJUK-PEMASANGAN.md</b> untuk cara mendapatkannya.</p>
+    <div class="field"><label>URL Apps Script</label>
+      <input id="cfgUrl" value="${esc(cur)}" placeholder="https://script.google.com/macros/s/.../exec"></div>
+    <div class="modal-actions">
+      <button class="btn ghost sm" onclick="closeModal()">Batal</button>
+      <button class="btn sm" onclick="saveSettings()">Simpan</button>
+    </div>`);
+}
+function saveSettings(){
+  const v=$('cfgUrl').value.trim();
+  if(v) localStorage.setItem('osnipa_script_url',v); else localStorage.removeItem('osnipa_script_url');
+  CONFIG.APPS_SCRIPT_URL=v; closeModal();
+  alert(v?'URL penyimpanan tersimpan. Hasil siswa akan dikirim ke Drive Anda.':'URL dikosongkan.');
+}
+
+/* ---------- INIT ---------- */
+(function init(){
+  const saved=localStorage.getItem('osnipa_ses');
+  if(saved){ try{ SES=JSON.parse(saved); if(SES.nama&&SES.sekolah){ enterSelect(); return; } }catch(e){} }
+  show('login');
+  $('inSekolah').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+})();
+</script>
+</body>
+</html>
